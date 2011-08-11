@@ -1,0 +1,50 @@
+html{
+	overflow-y:scroll;
+}
+body{
+	padding:10px 20px 20px;
+}
+#count{
+	position:fixed;
+	right:0;
+	top:0;
+	font-size:4em;
+	padding:.2em .2em .2em;
+	background:#333;
+	color:#fff;
+	font-weight:bold;
+	font-family:sans-serif;
+	opacity:.5;
+}
+.item{
+	border:1px solid #000;
+	width:80px;
+	height:80px;
+	margin:5px;
+	float:left;
+}
+	.item img{
+		float:left;
+		-webkit-transition: opacity 1s;
+		-moz-transition: opacity 1s;
+		-ms-transition: opacity 1s;
+		-o-transition: opacity 1s;
+		transition: opacity 1s;
+		opacity:1;
+	}
+.item-loading{
+	background:url(loading.gif) 50% 50% no-repeat;
+}
+	.item-loading img{
+		opacity:0;
+	}
+
+#buttons{
+	position:fixed;
+	right:0;
+	bottom:0;
+	left:0;
+	padding:20px;
+	background:#ddd;
+	z-index:100;
+}

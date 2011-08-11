@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js" lang="ja">
+<head>
+<meta charset="utf-8">
+<title>jQuery.loadImg</title>
+<link rel="stylesheet" href="style.css">
+<script src="jquery.min.js"></script>
+<script src="jquery.loadImg.js"></script>
+<script>
+$(function(){
+	
+	var APIURL = 'http://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&api_key=4ac321ff87527569e9b1ba24206732fd&user_id=54910459@N06&format=json&jsoncallback=?';
+
+	$.loadImg('loading.gif'); // preload
+
+	var $body = $('body');
+	var $count = $('#count');
+
+	$('#load100').click(putImgs);
+
+	/* This demo loads imgs from flickr */
+	function putImgs(){
+		getFlickrImgs().done(function(d){
+			$count.text(d.photos.photo.length + $count.text()*1);
+			$.each(d.photos.photo, function(){
+				handleOneImg(this);
+			});
+		});
+	}
+
+	function getFlickrImgs(){
+		return $.Deferred(function(defer){
+			$.ajax({
+				url: APIURL,
+				dataType: 'jsonp',
+				data: { per_page: 20 }
+			}).then(function(data){
+				defer.resolve(data);
+			}, function(){
+				alert('something wrong ;(');
+				defer.reject();
+			});
+		}).promise();
+	}
+
+	function handleOneImg(data){
+		// flickr img src
+		var url = 'http://farm' + data.farm + '.static.flickr.com/' + data.server + '/' + data.id + '_' + data.secret + '.jpg';
+		// append img wrappr and... 
+		var $div = $('<div class="item item-loading"></div>');
+		$body.append($div);
+		// loadImg, then append to wrapper.
+		$.loadImg(url).then(function($img){
+			$img.attr({ width: 80, height:80 });
+			$div.append($img);
+			// cast setTimeout to invoke transition
+			setTimeout(function(){
+				$div.removeClass('item-loading');
+			}, 0);
+		}, function(){
+			// remove div if loadImg fails
+			$div.remove();
+		});
+	}
+
+});
+</script>
+</head>
+<body>
+<h1>jQuery.loadImg</h1>
+<p>Push the button below.</p>
+<div id="count"></div>
+<div id="buttons">
+	<button id="load100">load recent 20 imgs</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+jQuery.loadImg is a imgLoader.
+$.loadImg loads img then cache it into the memory.
+This may let you handle img loading easily.
+
+Usage:
+
+$.loadImg('somewhere/img.png').then(function($img){
+    $('body').append($img);
+},function(error){
+    alert(error.msg);
+});
+
+Demo:
+http://dl.dropbox.com/u/268240/gitHubDemos/jQuery.loadImg/index.html
+http://dl.dropbox.com/u/268240/gitHubDemos/jQuery.imgLoadObserver/index.html
+
+works on jQuery 1.6.2.

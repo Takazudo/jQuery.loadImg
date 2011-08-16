@@ -6,15 +6,39 @@ works on jQuery 1.6.2.
 added $.presetPreloader. (2011/08/16)
 presetPreloader is useful when you use img rollover or css imgreplacement things.
 This create only one img for each requested srcs using deferred.
-Not documented yet, so check the demo to know how this works.
 
-Usage:
+
+Usage: $.loadImg
 
 $.loadImg('somewhere/img.png').then(function($img){
     $('body').append($img);
 },function(error){
     alert(error.msg);
 });
+
+
+Usage: $.presetPreloader
+
+$.presetPreloader.register({
+
+	/* static paths */
+	'button1': [ 'button1_hover.png', 'button1_active.png' ],
+	'button2': [ 'button2_hover.png', 'button2_active.png' ],
+
+	/* String.prototype.replace method's arguments.
+	   use img's src attr as original src. */
+	'hoverimg': [ 
+		[/^(.+_)normal(\.[^.]+)$/, '$1hover$2'],
+		[/^(.+_)normal(\.[^.]+)$/, '$1active$2']
+	]
+
+});
+
+<a href="#" class="ir button1 js-preload" data-presetpreload-key="button1">Button</a>
+<a href="#" class="ir button2 js-preload" data-presetpreload-key="button2">Button</a>
+
+$('.js-preload').presetPreload(); // fire preload
+$.presetPreloader.load('hoverimg', 'hogehoge_normal.png'); // can fire preload to call load method directly
 
 
 Demo:

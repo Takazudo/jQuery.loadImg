@@ -1,0 +1,21 @@
+/* For image replacement */
+.ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+.ir br { display: none; }
+
+.button1{ background:url(button1_normal.png); height:30px; width:276px; }
+.button1:hover,
+.button1:focus{ background:url(button1_hover.png); }
+.button1:active{ background:url(button1_active.png); }
+
+.button2{ background:url(button2_normal.png); height:30px; width:276px; }
+.button2:hover,
+.button2:focus{ background:url(button2_hover.png); }
+.button2:active{ background:url(button2_active.png); }
+
+ul{
+	list-style-type:none;
+	padding:0;
+}
+li{
+	margin:0 0 5px;
+}

@@ -17,7 +17,9 @@
 (function($, window, document, undefined){
 
 /**
- * cachedFunction factory
+ * $.createCachedFunction
+ *
+ * is a cachedFunction factory.
  * see: http://msdn.microsoft.com/ja-jp/scriptjunkie/gg723713.aspx
  * about this cache way and fetchImg mechanism
  */
@@ -34,7 +36,7 @@ $.createCachedFunction = function(requestedFunction){
 };
 
 /**
- * fetchImg
+ * $.fetchImg
  */
 $.fetchImg = $.createCachedFunction(function(defer, src){
 	var img = new Image();
@@ -74,5 +76,65 @@ $.fetchImg = $.createCachedFunction(function(defer, src){
 		}).promise();
 	};
 })();
+
+/**
+ * $.PresetPreloader
+ */
+$.PresetPreloader = function(){
+	this._presets = {};
+	this._fetchImgPromises = {};
+};
+$.PresetPreloader.prototype = {
+	register: function(presets){
+		$.extend(this._presets, presets);
+	},
+	load: function(presetKey, originalSrc){
+		if(!this.get(presetKey)){
+			return false;
+		}
+		if(this._fetchImgPromises[presetKey] !== undefined){
+			return true;
+		}
+		this._fetchImgPromises[presetKey] = this._fetchMultiImgs(presetKey, originalSrc);
+		return true;
+	},
+	_fetchMultiImgs: function(presetKey, originalSrc){
+		var presetVals = this._presets[presetKey];
+		var promises = [];
+		$.each(presetVals, function(i, presetVal){
+			var src;
+			if($.isArray(presetVal) && originalSrc){
+				src = String.prototype.replace.apply(originalSrc, presetVal);
+			}else{
+				src = presetVal;
+			}
+			promises.push( $.fetchImg(src) );
+		});
+		return $.when.apply(this, promises).pipe($.noop, function(){
+			$.error('PresetPreloader failed loading preset: ' + presetKey);
+		});
+	},
+	get: function(presetKey){
+		var preset = this._presets[presetKey];
+		if(preset === undefined){
+			$.error('presetKey: ' + presetKey + ' is not registered yet.');
+			return false;
+		}
+		return preset;
+	}
+};
+$.presetPreloader = new $.PresetPreloader; /* create this instance immediately */
+
+/**
+ * $.fn.presetpreload
+ */
+$.fn.presetpreload = function(){
+	return this.each(function(){
+		var $el = $(this);
+		var presetKey = $el.data('presetpreloadKey');
+		var originalSrc = $el.data('presetpreloadUsesrc') ?  $el.attr('src') : null;
+		$.presetPreloader.load(presetKey, originalSrc);
+	});
+};
 
 })(jQuery, this, this.document);

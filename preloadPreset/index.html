@@ -2,13 +2,78 @@
 <html class="no-js" lang="ja">
 <head>
 <meta charset="utf-8">
-<title>jQuery.loadImg</title>
+<title>jQuery.presetPreloader</title>
+<link rel="stylesheet" href="style.css">
 <script src="../jquery.min.js"></script>
 <script src="../jquery.loadImg.js"></script>
 <script>
+$(function(){
+
+	$.presetPreloader.register({
+
+		/* static paths */
+		'button1': [ 'button1_hover.png', 'button1_active.png' ],
+		'button2': [ 'button2_hover.png', 'button2_active.png' ],
+
+		/* replace arguments.
+		   use img's src attr as original src. */
+		'hoverimg': [ 
+			[/^(.+_)normal(\.[^.]+)$/, '$1hover$2'],
+			[/^(.+_)normal(\.[^.]+)$/, '$1active$2']
+		]
+
+	});
+
+	$('.js-preload').presetpreload();
+
+	/* lazy rollover */
+
+	$('.js-rollover').each(function(){
+
+		var $a = $(this);
+		var $img = $('img', this);
+		var src_normal = $img.attr('src');
+
+		var replArgs = $.presetPreloader.get('hoverimg');
+		var replArgs_hover = replArgs[0];
+		var replArgs_active = replArgs[1];
+
+		var src_hover = String.prototype.replace.apply(src_normal, replArgs_hover);
+		var src_active = String.prototype.replace.apply(src_normal, replArgs_active);
+
+		$.presetPreloader.load('hoverimg', src_normal); // can fire preload to call load method directly
+
+		$a
+			.hover(
+				function(){
+					$img.attr('src', src_hover);
+				},
+				function(){
+					$img.attr('src', src_normal);
+				}
+			)
+			.click(
+				function(){
+					$img.attr('src', src_active);
+				}
+			);
+	});
+
+});
 </script>
 </head>
 <body>
-<h1>jQuery.preloadPreset</h1>
+<h1>jQuery.presetPreloader</h1>
+<ul>
+<li><a href="#" class="ir button1 js-preload" data-presetpreload-key="button1">Button</a></li>
+<li><a href="#" class="ir button2 js-preload" data-presetpreload-key="button2">Button</a></li>
+<li><a href="#" class="js-rollover"><img src="button3_normal.png" alt="Button"></a></li>
+<li><a href="#" class="ir button1 js-preload" data-presetpreload-key="button1">Button</a></li>
+<li><a href="#" class="ir button2 js-preload" data-presetpreload-key="button2">Button</a></li>
+<li><a href="#" class="js-rollover"><img src="button3_normal.png" alt="Button"></a></li>
+<li><a href="#" class="ir button1 js-preload" data-presetpreload-key="button1">Button</a></li>
+<li><a href="#" class="ir button2 js-preload" data-presetpreload-key="button2">Button</a></li>
+<li><a href="#" class="js-rollover"><img src="button3_normal.png" alt="Button"></a></li>
+</ul>
 </body>
 </html>

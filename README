@@ -8,7 +8,6 @@ presetPreloader is useful when you use img rollover or css imgreplacement things
 This create only one img for each requested srcs using deferred.
 Not documented yet, so check the demo to know how this works.
 
-
 Usage:
 
 $.loadImg('somewhere/img.png').then(function($img){

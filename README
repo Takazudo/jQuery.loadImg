@@ -36,6 +36,7 @@ $.presetPreloader.register({
 
 <a href="#" class="ir button1 js-preload" data-presetpreload-key="button1">Button</a>
 <a href="#" class="ir button2 js-preload" data-presetpreload-key="button2">Button</a>
+<!-- and, code :hover, :active image replacement css for these anchors... -->
 
 $('.js-preload').presetPreload(); // fire preload
 $.presetPreloader.load('hoverimg', 'hogehoge_normal.png'); // can fire preload to call load method directly

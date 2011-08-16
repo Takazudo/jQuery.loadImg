@@ -3,6 +3,11 @@ $.loadImg loads img then cache it into the memory.
 This may let you handle img loading easily.
 works on jQuery 1.6.2.
 
+added $.presetPreloader. (2011/08/16)
+presetPreloader is useful when you use img rollover or css imgreplacement things.
+This create only one img for each requested srcs using deferred.
+Not documented yet, so check the demo to know how this works.
+
 
 Usage:
 
@@ -15,4 +20,5 @@ $.loadImg('somewhere/img.png').then(function($img){
 
 Demo:
 
-http://dl.dropbox.com/u/268240/gitHubDemos/jQuery.loadImg/index.html
+http://dl.dropbox.com/u/268240/gitHubDemos/jQuery.loadImg/loadImg_w_flickr/index.html
+http://dl.dropbox.com/u/268240/gitHubDemos/jQuery.loadImg/presetPreloader/index.html

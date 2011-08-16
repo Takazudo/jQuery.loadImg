@@ -126,9 +126,9 @@ $.PresetPreloader.prototype = {
 $.presetPreloader = new $.PresetPreloader; /* create this instance immediately */
 
 /**
- * $.fn.presetpreload
+ * $.fn.presetPreload
  */
-$.fn.presetpreload = function(){
+$.fn.presetPreload = function(){
 	return this.each(function(){
 		var $el = $(this);
 		var presetKey = $el.data('presetpreloadKey');

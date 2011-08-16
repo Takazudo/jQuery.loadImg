@@ -7,6 +7,10 @@
 <script src="../jquery.min.js"></script>
 <script src="../jquery.loadImg.js"></script>
 <script>
+
+/* avoid IE6 bg flicker */
+try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {}
+
 $(function(){
 
 	$.presetPreloader.register({
@@ -24,7 +28,7 @@ $(function(){
 
 	});
 
-	$('.js-preload').presetpreload();
+	$('.js-preload').presetPreload();
 
 	/* lazy rollover */
 
@@ -43,20 +47,14 @@ $(function(){
 
 		$.presetPreloader.load('hoverimg', src_normal); // can fire preload to call load method directly
 
+		function toNormal(){ $img.attr('src', src_normal); }
+		function toHover(){ $img.attr('src', src_hover); }
+		function toActive(){ $img.attr('src', src_active); }
+
 		$a
-			.hover(
-				function(){
-					$img.attr('src', src_hover);
-				},
-				function(){
-					$img.attr('src', src_normal);
-				}
-			)
-			.click(
-				function(){
-					$img.attr('src', src_active);
-				}
-			);
+			.hover(toNormal, toHover)
+			.mousedown(toActive)
+			.mouseup(toNormal);
 	});
 
 });

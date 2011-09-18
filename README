@@ -7,6 +7,10 @@ added $.presetPreloader. (2011/08/16)
 presetPreloader is useful when you use img rollover or css imgreplacement things.
 This create only one img for each requested srcs using deferred.
 
+added $.calcNaturalWH / $.fn.calcNaturalWH (2011/09/18)
+These are the utils to get naturalWidth, naturalHeight info.
+
+============================================
 
 Usage: $.loadImg
 
@@ -16,6 +20,7 @@ $.loadImg('somewhere/img.png').then(function($img){
     alert(error.msg);
 });
 
+============================================
 
 Usage: $.presetPreloader
 
@@ -43,8 +48,24 @@ $.presetPreloader.register({
 $('.js-preload').presetPreload(); // fire preload
 $.presetPreloader.load('hoverimg', 'hogehoge_normal.png'); // can fire preload to call load method directly
 
+============================================
 
-Demo:
+Usage: $.calcNaturalWH / $.fn.calcNaturalWH()
+
+$('img#anImgElementOnThePage').calcNaturalWH().done(function(wh){
+	alert(wh.width); // 1200
+	alert(wh.height); // 1000
+});
+
+$.calcNaturalWH('img1.jpg').done(function(wh){
+	alert(wh.width); // 1200
+	alert(wh.height); // 1000
+})
+
+============================================
+
+Demos:
 
 http://dl.dropbox.com/u/268240/gitHubDemos/jQuery.loadImg/loadImg_w_flickr/index.html
 http://dl.dropbox.com/u/268240/gitHubDemos/jQuery.loadImg/presetPreloader/index.html
+http://dl.dropbox.com/u/268240/gitHubDemos/jQuery.loadImg/naturalWH/index.html

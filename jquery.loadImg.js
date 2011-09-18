@@ -84,16 +84,19 @@ $.fetchImg = $.createCachedFunction(function(defer, src){
 
 	/* create tempholder */
 
-	var $tempholder = $('<div id="calcNaturalWH-tempholder"></div>').css({
-		left: '-9999px',
-		top: '-9999px'
-	});
-	var $tempholderSetup = $.Deferred(function(defer){
-		$(function(){
-			$('body').append($tempholder);
-			defer.resolve();
-		});
-	}).promise();
+	var $tempholder;
+	var $tempholderSetup = function(){
+		return $.Deferred(function(defer){
+			$(function(){
+				$tempholder = $('<div id="calcNaturalWH-tempholder"></div>').css({
+					left: '-9999px',
+					top: '-9999px'
+				});
+				$('body').append($tempholder);
+				defer.resolve();
+			});
+		}).promise();
+	};
 
 	/* storage */
 
@@ -111,7 +114,7 @@ $.fetchImg = $.createCachedFunction(function(defer, src){
 				cache[src] = res;
 				defer.resolve(res);
 			}else{
-				$tempholderSetup.done(function(){
+				$tempholderSetup().done(function(){
 					$tempholder.append($img);
 					res.width = $img.width();
 					res.height = $img.height();

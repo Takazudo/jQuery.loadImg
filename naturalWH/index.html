@@ -5,18 +5,82 @@
 <title>jQuery.loadImg</title>
 <script src="../jquery.min.js"></script>
 <script src="../jquery.loadImg.js"></script>
-<script>
-$(function(){
-	
-
-});
-</script>
 </head>
 <body>
-<h1>jQuery.fn.naturalWidth / jQuery.fn.naturalHeight</h1>
+<h1>jQuery.fn.calcNaturalWH</h1>
 <h2>img1.jpg</h2>
 <ul id="res1"></ul>
 <h2>img2.jpg</h2>
 <ul id="res2"></ul>
+<div id="temp"></div>
+<script>
+
+/* img1Test */
+
+	/* call api directly */
+
+	function img1Test(){
+		$.calcNaturalWH('img1.jpg').done(function(wh){
+			$(function(){
+				$('#res1').append('<li>' + wh.width + ', ' + wh.height + '</li>');
+			});
+		});
+	}
+	img1Test();
+	img1Test();
+	img1Test();
+
+	/* try imgs on pages */
+
+	$(function(){
+		var $img = $('<img src="img1.jpg" alt="">').appendTo('#temp');
+		(function(){
+			var wh;
+			$img.calcNaturalWH().done(function(wh){
+				$('#res1').append('<li>' + wh.width + ', ' + wh.height + '</li>');
+			});
+		})();
+		(function(){
+			var wh;
+			$img.calcNaturalWH().done(function(wh){
+				$('#res1').append('<li>' + wh.width + ', ' + wh.height + '</li>');
+			});
+		})();
+	});
+
+/* img2Test */
+
+	/* call api directly */
+
+	function img2Test(){
+		$.calcNaturalWH('img2.jpg').done(function(wh){
+			$(function(){
+				$('#res2').append('<li>' + wh.width + ', ' + wh.height + '</li>');
+			});
+		});
+	}
+	img2Test();
+	img2Test();
+	img2Test();
+
+	/* try imgs on pages */
+
+	$(function(){
+		var $img = $('<img src="img2.jpg" alt="">').appendTo('#temp');
+		(function(){
+			var wh;
+			$img.calcNaturalWH().done(function(wh){
+				$('#res2').append('<li>' + wh.width + ', ' + wh.height + '</li>');
+			});
+		})();
+		(function(){
+			var wh;
+			$img.calcNaturalWH().done(function(wh){
+				$('#res2').append('<li>' + wh.width + ', ' + wh.height + '</li>');
+			});
+		})();
+	});
+
+</script>
 </body>
 </html>

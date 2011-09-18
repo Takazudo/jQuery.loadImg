@@ -78,6 +78,64 @@ $.fetchImg = $.createCachedFunction(function(defer, src){
 })();
 
 /**
+ * $.calcNaturalWH
+ */
+(function(){
+
+	/* create tempholder */
+
+	var $tempholder = $('<div id="calcNaturalWH-tempholder"></div>').css({
+		left: '-9999px',
+		top: '-9999px'
+	});
+	var $tempholderSetup = $.Deferred(function(defer){
+		$(function(){
+			$('body').append($tempholder);
+			defer.resolve();
+		});
+	}).promise();
+
+	/* storage */
+
+	var cache = {};
+
+	/* core */
+
+	$.calcNaturalWH = $.createCachedFunction(function(defer, src){
+		$.loadImg(src).then(function($img){
+			var img = $img[0];
+			var res = {};
+			if(img.naturalWidth !== undefined){
+				res.width = img.naturalWidth;
+				res.height = img.naturalHeight;
+				cache[src] = res;
+				defer.resolve(res);
+			}else{
+				$tempholderSetup.done(function(){
+					$tempholder.append($img);
+					res.width = $img.width();
+					res.height = $img.height();
+					cache[src] = res;
+					$tempholder.empty();
+					defer.resolve(res);
+				});
+			}
+		}, function(msg){
+			defer.reject(msg);
+		});
+	});
+
+	/* bridge */
+
+	$.fn.calcNaturalWH = function(){
+		var $img = this;
+		var src = $img.attr('src');
+		return $.calcNaturalWH(src);
+	};
+
+})();
+
+/**
  * $.PresetPreloader
  */
 $.PresetPreloader = function(){

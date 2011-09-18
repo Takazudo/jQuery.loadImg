@@ -89,13 +89,16 @@ $.PresetPreloader.prototype = {
 		$.extend(this._presets, presets);
 	},
 	load: function(presetKey, originalSrc){
-		if(!this.get(presetKey)){
+		var preset = this.get(presetKey);
+		if(!preset){
+			log('$.PresetPreloader detected unregistered preset.');
 			return false;
 		}
-		if(this._fetchImgPromises[presetKey] !== undefined){
+		var id = originalSrc ? presetKey + '$' + originalSrc : presetKey;
+		if(this._fetchImgPromises[id] !== undefined){
 			return true;
 		}
-		this._fetchImgPromises[presetKey] = this._fetchMultiImgs(presetKey, originalSrc);
+		this._fetchImgPromises[id] = this._fetchMultiImgs(presetKey, originalSrc);
 		return true;
 	},
 	_fetchMultiImgs: function(presetKey, originalSrc){
@@ -132,7 +135,13 @@ $.fn.presetPreload = function(){
 	return this.each(function(){
 		var $el = $(this);
 		var presetKey = $el.data('presetpreloadKey');
-		var originalSrc = $el.data('presetpreloadUsesrc') ?  $el.attr('src') : null;
+		var originalSrc = null;
+		if($el.data('presetpreloadUsesrc')){
+			originalSrc = $el.attr('src');
+		}
+		if($el.data('presetpreloadUsechildimg')){
+			originalSrc = $el.find('img').eq(0).attr('src');
+		}
 		$.presetPreloader.load(presetKey, originalSrc);
 	});
 };

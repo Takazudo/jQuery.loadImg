@@ -52,7 +52,7 @@ $(function(){
 		function toActive(){ $img.attr('src', src_active); }
 
 		$a
-			.hover(toNormal, toHover)
+			.hover(toHover, toNormal)
 			.mousedown(toActive)
 			.mouseup(toNormal);
 	});

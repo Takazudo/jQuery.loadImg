@@ -5,14 +5,8 @@
  * @copyright : Takeshi Takatsudo
  * @license   : The MIT License
  * @link      : https://github.com/Takazudo/jQuery.loadImg
- * @modified  : 2011/08/11
- * @version   : 0.1
- *
- * $.loadImg('somewhere/img.png').then(function($img){
- *     $('body').append($img);
- * },function(error){
- *     alert(error.msg);
- * });
+ * @modified  : 2011/09/18
+ * @version   : 0.2
  */
 (function($, window, document, undefined){
 

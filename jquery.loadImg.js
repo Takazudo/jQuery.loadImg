@@ -102,12 +102,10 @@ $.fetchImg = $.createCachedFunction(function(defer, src){
 		$.loadImg(src).then(function($img){
 			var img = $img[0];
 			var res = {};
-			if(img.naturalWidth !== undefined){
-				res.width = img.naturalWidth;
-				res.height = img.naturalHeight;
-				cache[src] = res;
-				defer.resolve(res);
-			}else{
+			if(
+				(img.naturalWidth === undefined) ||
+				(img.naturalWidth === 0)
+			){
 				$tempholderSetup().done(function(){
 					$tempholder.append($img);
 					res.width = $img.width();
@@ -116,6 +114,11 @@ $.fetchImg = $.createCachedFunction(function(defer, src){
 					$tempholder.empty();
 					defer.resolve(res);
 				});
+			}else{
+				res.width = img.naturalWidth;
+				res.height = img.naturalHeight;
+				cache[src] = res;
+				defer.resolve(res);
 			}
 		}, function(msg){
 			defer.reject(msg);

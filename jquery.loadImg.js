@@ -83,6 +83,7 @@ $.fetchImg = $.createCachedFunction(function(defer, src){
 		return $.Deferred(function(defer){
 			$(function(){
 				$tempholder = $('<div id="calcNaturalWH-tempholder"></div>').css({
+					position: 'absolute',
 					left: '-9999px',
 					top: '-9999px'
 				});
